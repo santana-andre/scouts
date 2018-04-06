@@ -10,7 +10,6 @@
                     <?php
                     foreach($langs as $slug => $language)
                     {
-                        
                         echo '<li>'.anchor('admin/pages/create/'.$slug,$language['name']).'</li>';
                     }
                     ?>
@@ -49,7 +48,9 @@
                         if(array_key_exists($slug,$page['translations']))
                         {
                             echo anchor('admin/pages/edit/'.$slug.'/'.$page_id,'<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>');
-                            echo ' '.anchor('admin/pages/delete/'.$slug.'/'.$page_id,'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+                            echo ' '.anchor('admin/pages/delete/'.$slug.'/'.$page_id,'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>','onclick="return confirm(\'Are you sure you want to delete?\')"');
+                            echo '<br />'.$page['translations'][$slug]['created_at'];
+                            echo '<br />'.$page['translations'][$slug]['last_update'];
                         }
                         else
                         {
@@ -59,12 +60,14 @@
                     }
                     echo '<td>'.$page['created_at'].'</td>';
                     echo '<td>'.$page['last_update'].'</td>';
-                    echo '<td>'.anchor('admin/pages/delete/all/'.$page_id,'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>').'</td>';
+                    echo '<td>'.anchor('admin/pages/delete/all/'.$page_id,'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>','onclick="return confirm(\'Are you sure you want to delete?\')"').'</td>';
                     echo '</tr>';
                 }
             }
             echo '</table>';
-            echo '<div>'.$next_previous_pages.'</div>';
+            echo '<nav><ul class="pagination">';
+            echo $next_previous_pages;
+            echo '</ul></nav>';
             ?>
         </div>
     </div>

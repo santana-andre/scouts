@@ -19,7 +19,7 @@ class MY_Controller extends CI_Controller
     {
       foreach($available_languages as $lang)
       {
-        $this->langs[$lang->slug] = array('id'=>$lang->id,'slug'=>$lang->slug,'language_directory'=>$lang->language_directory,'language_code'=>$lang->language_code,'default'=>$lang->default);
+        $this->langs[$lang->slug] = array('id'=>$lang->id,'name'=>$lang->language_name,'slug'=>$lang->slug,'language_directory'=>$lang->language_directory,'language_code'=>$lang->language_code,'default'=>$lang->default);
         if($lang->default == '1') $this->default_lang = $lang->slug;
       }
     }
@@ -62,6 +62,7 @@ class MY_Controller extends CI_Controller
     $this->data['page_description'] = 'CI_App';
     $this->data['before_head'] = '';
     $this->data['before_body'] = '';
+
   }
 
   protected function render($the_view = NULL, $template = 'master')
@@ -116,9 +117,18 @@ class Admin_Controller extends MY_Controller
 
 class Public_Controller extends MY_Controller
 {
-
   function __construct()
   {
     parent::__construct();
+    $language = $this->data['current_lang'];
+    $idiom = $language['language_directory'];
+    $this->load->language('interface_lang',$idiom);
+  }
+
+  protected function render($the_view = NULL, $template = 'public_master')
+  {
+    // $this->load->library('menus');
+    // $this->data['top_menu'] = $this->menus->get_menu('top-menu',$this->current_lang,'bootstrap_menu');
+    parent::render($the_view, $template);
   }
 }
